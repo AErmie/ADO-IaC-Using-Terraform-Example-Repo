@@ -12,8 +12,8 @@ trigger:
   #     - /Terraform/Networking/Deployments/Network-Deployment/Spoke-Deploy/Spoke.tfvars
   resources:
     pipelines:
-    - pipeline: ADO-Terraform-IAC (Spoke Deploy)   # Name of the pipeline resource
-      source: ADO-Terraform-IAC (Hub Deploy) # Name of the triggering pipeline
+    - pipeline: "ADO-Terraform-IAC (Spoke Deploy)"
+      source: "ADO-Terraform-IAC (Hub Deploy)"
       # trigger: 
       #   branches:
       #   - releases/*
