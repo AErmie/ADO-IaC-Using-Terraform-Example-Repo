@@ -4,12 +4,13 @@ trigger:
       - master
   paths:
     include:
-      - /Terraform/Networking/Hub/HubNetwork.tf
-      - /Terraform/Networking/Hub/variables.tf
-      - /Terraform/Networking/Hub/outputs.tf
-      - /Terraform/Networking/Deployments/Network-Deployment/Hub-Deploy/HubDeploy.tf
-      - /Terraform/Networking/Deployments/Network-Deployment/Hub-Deploy/variables.tf
-      - /Terraform/Networking/Deployments/Network-Deployment/Hub-Deploy/Hub.tfvars
+      - /deploy-hub.txt
+      # - /Terraform/Networking/Hub/HubNetwork.tf
+      # - /Terraform/Networking/Hub/variables.tf
+      # - /Terraform/Networking/Hub/outputs.tf
+      # - /Terraform/Networking/Deployments/Network-Deployment/Hub-Deploy/HubDeploy.tf
+      # - /Terraform/Networking/Deployments/Network-Deployment/Hub-Deploy/variables.tf
+      # - /Terraform/Networking/Deployments/Network-Deployment/Hub-Deploy/Hub.tfvars
 
 pool:
   vmImage: "ubuntu-latest"

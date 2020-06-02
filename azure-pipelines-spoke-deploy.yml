@@ -1,15 +1,23 @@
 trigger:
-  branches:
-    include:
-      - master
-  paths:
-    include:
-      - /Terraform/Networking/Spoke-Prod/Spoke-Prod.tf
-      - /Terraform/Networking/Spoke-Prod/variables.tf
-      - /Terraform/Networking/Spoke-Prod/outputs.tf
-      - /Terraform/Networking/Deployments/Network-Deployment/Spoke-Deploy/SpokeDeploy.tf
-      - /Terraform/Networking/Deployments/Network-Deployment/Spoke-Deploy/variables.tf
-      - /Terraform/Networking/Deployments/Network-Deployment/Spoke-Deploy/Spoke.tfvars
+  # branches:
+  #   include:
+  #     - master
+  # paths:
+  #   include:
+  #     - /Terraform/Networking/Spoke-Prod/Spoke-Prod.tf
+  #     - /Terraform/Networking/Spoke-Prod/variables.tf
+  #     - /Terraform/Networking/Spoke-Prod/outputs.tf
+  #     - /Terraform/Networking/Deployments/Network-Deployment/Spoke-Deploy/SpokeDeploy.tf
+  #     - /Terraform/Networking/Deployments/Network-Deployment/Spoke-Deploy/variables.tf
+  #     - /Terraform/Networking/Deployments/Network-Deployment/Spoke-Deploy/Spoke.tfvars
+  resources:
+    pipelines:
+    - pipeline: ADO-Terraform-IAC (Spoke Deploy)   # Name of the pipeline resource
+      source: ADO-Terraform-IAC (Hub Deploy) # Name of the triggering pipeline
+      # trigger: 
+      #   branches:
+      #   - releases/*
+      #   - master
 
 pool:
   vmImage: "ubuntu-latest"
