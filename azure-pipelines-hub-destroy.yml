@@ -1,3 +1,11 @@
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - /cleanup-hub.txt
+
 pool:
   vmImage: "ubuntu-latest"
 

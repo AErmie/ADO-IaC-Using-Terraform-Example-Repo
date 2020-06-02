@@ -4,7 +4,7 @@ trigger:
       - master
   paths:
     include:
-      - /cleanup-spoke.txt
+      - /cleanup-peer.txt
 
 pool:
   vmImage: "ubuntu-latest"
@@ -22,7 +22,7 @@ variables:
   - name: blob_storage
     value: container01-azuredevops
   - name: state_file
-    value: tf-statefile-spoke.state
+    value: tf-statefile-peer.state
   - name: sa-resource_group
     value: AzureDevOps
 
@@ -37,7 +37,7 @@ steps:
     displayName: "Log Into Azure"
   - script: terraform init -backend-config=resource_group_name=$(sa-resource_group) -backend-config="storage_account_name=$(storage_accounts)" -backend-config="container_name=$(blob_storage)" -backend-config="access_key=$(sa01-azdo-accesskey)" -backend-config="key=$(state_file)"
     displayName: "Terraform Init"
-    workingDirectory: $(System.DefaultWorkingDirectory)/Terraform/Networking/Deployments/Network-Deployment/Spoke-Deploy
-  - script: terraform destroy -var="client_id=$(application_id)" -var="client_secret=$(spn-azuredevops-password2)" -var="tenant_id=$(tenant_id)" -var="subscription_id=$(subscription_id)" -var-file="Spoke.tfvars"
+    workingDirectory: $(System.DefaultWorkingDirectory)/Terraform/Networking/Deployments/Network-Deployment/Peering-Deploy
+  - script: terraform destroy -var="client_id=$(application_id)" -var="client_secret=$(spn-azuredevops-password2)" -var="tenant_id=$(tenant_id)" -var="subscription_id=$(subscription_id)" -var-file="Peering.tfvars"
     displayName: "Terraform Destroy"
-    workingDirectory: $(System.DefaultWorkingDirectory)/Terraform/Networking/Deployments/Network-Deployment/Spoke-Deploy
+    workingDirectory: $(System.DefaultWorkingDirectory)/Terraform/Networking/Deployments/Network-Deployment/Peering-Deploy
