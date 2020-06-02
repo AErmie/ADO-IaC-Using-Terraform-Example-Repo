@@ -4,7 +4,12 @@ trigger:
       - master
   paths:
     include:
-      - /Terraform/Networking/Hub/*
+      - /Terraform/Networking/Hub/HubNetwork.tf
+      - /Terraform/Networking/Hub/variables.tf
+      - /Terraform/Networking/Hub/outputs.tf
+      - /Terraform/Networking/Deployments/Network-Deployment/Hub-Deploy/HubDeploy.tf
+      - /Terraform/Networking/Deployments/Network-Deployment/Hub-Deploy/variables.tf
+      - /Terraform/Networking/Deployments/Network-Deployment/Hub-Deploy/Hub.tfvars
 
 pool:
   vmImage: "ubuntu-latest"
@@ -29,6 +34,8 @@ variables:
 steps:
   - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
     displayName: "Install Terraform"
+    inputs:
+      terraformVersion: '0.12.26'
   - script: terraform version
     displayName: "Terraform Version"
   - script:  az login --service-principal -u $(application_id) -p $(spn-azuredevops-password2) --tenant $(tenant_id)
