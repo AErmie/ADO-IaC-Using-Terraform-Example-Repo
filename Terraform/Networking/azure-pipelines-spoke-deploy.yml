@@ -4,12 +4,12 @@ trigger:
       - master
   paths:
     include:
-      - /Terraform/Networking/Hub/HubNetwork.tf
-      - /Terraform/Networking/Hub/variables.tf
-      - /Terraform/Networking/Hub/outputs.tf
-      - /Terraform/Networking/Deployments/Network-Deployment/Hub-Deploy/HubDeploy.tf
-      - /Terraform/Networking/Deployments/Network-Deployment/Hub-Deploy/variables.tf
-      - /Terraform/Networking/Deployments/Network-Deployment/Hub-Deploy/Hub.tfvars
+      - /Terraform/Networking/Spoke-Prod/Spoke-Prod.tf
+      - /Terraform/Networking/Spoke-Prod/variables.tf
+      - /Terraform/Networking/Spoke-Prod/outputs.tf
+      - /Terraform/Networking/Deployments/Network-Deployment/Spoke-Deploy/SpokeDeploy.tf
+      - /Terraform/Networking/Deployments/Network-Deployment/Spoke-Deploy/variables.tf
+      - /Terraform/Networking/Deployments/Network-Deployment/Spoke-Deploy/Spoke.tfvars
 
 pool:
   vmImage: "ubuntu-latest"
@@ -27,7 +27,7 @@ variables:
   - name: blob_storage
     value: container01-azuredevops
   - name: state_file
-    value: tf-statefile-hub.state
+    value: tf-statefile-spoke.state
   - name: sa-resource_group
     value: AzureDevOps
 
@@ -42,10 +42,10 @@ steps:
     displayName: "Log Into Azure"
   - script: terraform init -backend-config=resource_group_name=$(sa-resource_group) -backend-config="storage_account_name=$(storage_accounts)" -backend-config="container_name=$(blob_storage)" -backend-config="access_key=$(sa01-azdo-accesskey)" -backend-config="key=$(state_file)"
     displayName: "Terraform Init"
-    workingDirectory: $(System.DefaultWorkingDirectory)/Terraform/Networking/Deployments/Network-Deployment/Hub-Deploy
-  - script: terraform plan -var="client_id=$(application_id)" -var="client_secret=$(spn-azuredevops-password2)" -var="tenant_id=$(tenant_id)" -var="subscription_id=$(subscription_id)" -var-file="Hub.tfvars" -out="HubDeploy.plan"
+    workingDirectory: $(System.DefaultWorkingDirectory)/Terraform/Networking/Deployments/Network-Deployment/Spoke-Deploy
+  - script: terraform plan -var="client_id=$(application_id)" -var="client_secret=$(spn-azuredevops-password2)" -var="tenant_id=$(tenant_id)" -var="subscription_id=$(subscription_id)" -var-file="Spoke.tfvars" -out="SpokeDeploy.plan"
     displayName: "Terraform Plan"
     workingDirectory: $(System.DefaultWorkingDirectory)/Terraform/Networking/Deployments/Network-Deployment/Hub-Deploy
-  - script: terraform apply HubDeploy.plan
+  - script: terraform apply SpokeDeploy.plan
     displayName: "Terraform Apply"
-    workingDirectory: $(System.DefaultWorkingDirectory)/Terraform/Networking/Deployments/Network-Deployment/Hub-Deploy
+    workingDirectory: $(System.DefaultWorkingDirectory)/Terraform/Networking/Deployments/Network-Deployment/Spoke-Deploy
