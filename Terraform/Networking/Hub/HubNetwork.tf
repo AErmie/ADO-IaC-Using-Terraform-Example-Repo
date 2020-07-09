@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "SharedServicesRG" {
-  name     = "SharedServicesRG"
+  name     = "SharedServicesRG-ADO"
   location = var.SharedServicesResourceGroupLocation
   tags = {
     Environment = var.Environment
