@@ -6,3 +6,8 @@ resource "azurerm_resource_group" "AppResourceGroup" {
         CreatedBy = "Terraform"
     }
  }
+
+ resource "random_integer" "random_int" {
+  min     = 1
+  max     = 100
+}

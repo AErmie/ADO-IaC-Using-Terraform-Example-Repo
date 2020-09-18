@@ -1,5 +1,5 @@
 resource "azurerm_key_vault" "AppKeyVault" {
-  name                        = substr("${var.Environment}-AppKeyVault-${var.AppName}-001",0,24)
+  name                        = substr("${var.Environment}-AppKV-${var.AppName}-${random_integer.random_int.result}",0,24)
   location                    = azurerm_resource_group.AppResourceGroup.location
   resource_group_name         = azurerm_resource_group.AppResourceGroup.name
   tenant_id                   = data.azurerm_client_config.current.tenant_id

@@ -21,23 +21,6 @@ variables:
   - name: StateFile
     value: tf-statefile-hub.tfstate
 
-# variables:
-#   - group: Terraform-BuildVariables
-#   - name: subscription_id
-#     value: "<<>>"
-#   - name: application_id
-#     value: "<<>>"
-#   - name: tenant_id
-#     value: "<<>>"
-#   - name: storage_accounts
-#     value: "azuredevopssa"
-#   - name: blob_storage
-#     value: container01-azuredevops
-#   - name: state_file
-#     value: tf-statefile-hub.state
-#   - name: sa-resource_group
-#     value: AzureDevOps
-
 steps:
   - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
     displayName: "Install Terraform"
@@ -50,7 +33,7 @@ steps:
   - script:  az login --service-principal -u $(application_id) -p $(spn-azuredevops-password2) --tenant $(tenant_id)
     displayName: "Log Into Azure"
 
-  - script: terraform init -backend-config=resource_group_name=$(sa-resource_group) -backend-config="storage_account_name=$(storage_accounts)" -backend-config="container_name=$(blob_storage)" -backend-config="access_key=$(sa01-azdo-accesskey)" -backend-config="key=$(state_file)"
+  - script: terraform init -backend-config=resource_group_name=$(sa-resource_group) -backend-config="storage_account_name=$(storage_account)" -backend-config="container_name=$(blob_storage)" -backend-config="access_key=$(sa01-azdo-accesskey)" -backend-config="key=$(StateFile)"
     displayName: "Terraform Init"
     workingDirectory: $(System.DefaultWorkingDirectory)/Terraform/Networking/Deployments/Network-Deployment/Hub-Deploy
 
