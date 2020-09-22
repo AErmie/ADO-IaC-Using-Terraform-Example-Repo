@@ -10,8 +10,8 @@ pool:
   vmImage: "ubuntu-latest"
 
 variables:
-  - group: Terraform Sensitive Variables
   - group: Terraform Pipeline Variables
+  - group: Terraform Sensitive Variables
   - name: StateFile
     value: tf-statefile-peer.tfstate
 
@@ -22,11 +22,11 @@ steps:
       terraformVersion: '0.13.3'
   - script: terraform version
     displayName: "Terraform Version"
-  - script:  az login --service-principal -u $(application_id) -p $(spn-azuredevops-password2) --tenant $(tenant_id)
+  - script:  az login --service-principal -u $(application_id) -p $(SPNPassword) --tenant $(tenant_id)
     displayName: "Log Into Azure"
-  - script: terraform init -backend-config=resource_group_name=$(sa-resource_group) -backend-config="storage_account_name=$(storage_account)" -backend-config="container_name=$(blob_storage)" -backend-config="access_key=$(sa01-azdo-accesskey)" -backend-config="key=$(StateFile)"
+  - script: terraform init -backend-config=resource_group_name=$(sa-resource_group) -backend-config="storage_account_name=$(storage_account)" -backend-config="container_name=$(blob_storage)" -backend-config="access_key=$(StorageAccountAccessKey)" -backend-config="key=$(StateFile)"
     displayName: "Terraform Init"
     workingDirectory: $(System.DefaultWorkingDirectory)/Terraform/Networking/Deployments/Network-Deployment/Peering-Deploy
-  - script: terraform destroy -var="client_id=$(application_id)" -var="client_secret=$(spn-azuredevops-password2)" -var="tenant_id=$(tenant_id)" -var="subscription_id=$(subscription_id)" -var-file="Peering.tfvars" -auto-approve
+  - script: terraform destroy -var="client_id=$(application_id)" -var="client_secret=$(SPNPassword)" -var="tenant_id=$(tenant_id)" -var="subscription_id=$(subscription_id)" -var-file="Peering.tfvars" -auto-approve
     displayName: "Terraform Destroy"
     workingDirectory: $(System.DefaultWorkingDirectory)/Terraform/Networking/Deployments/Network-Deployment/Peering-Deploy
