@@ -1,0 +1,31 @@
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+    # - /Terraform/Networking/Hub/*
+    # - /Terraform/Networking/Deployments/Network-Deployment/Hub-Deploy/*
+
+pool:
+  vmImage: "ubuntu-latest"
+
+variables:
+  - group: WhiteSource Variables
+  - name: WhiteSource-ProjectName
+    value: ADO-IAC-Using-Terraform
+
+name: WhiteSource Pipeline  # build numbering format
+
+stages:
+  - stage: WhiteSourceStage  # name of the stage (A-Z, a-z, 0-9, and underscore)
+    displayName: WhiteSourcing  # friendly name to display in the UI
+    jobs:
+      - job: TFInstall  # name of the job (A-Z, a-z, 0-9, and underscore)
+        displayName: Install and Verify Terraform  # friendly name to display in the UI
+        steps:
+        - script: 'curl -LJO https://github.com/whitesource/unified-agent-distribution/releases/latest/download/wss-unified-agent.jar'
+          displayName: 'Download the latest WhiteSource Unified Agent'
+
+        - script: 'java -jar wss-unified-agent.jar -c wss-unified-agent.config -apiKey $(WhiteSource_APIKey) -project $(WhiteSource-ProjectName)'
+          displayName: 'Run Unified Agent Scan'
